@@ -14,7 +14,7 @@ export default function JobDetailModal({ show, handleClose, job }) {
                 <p><strong>Salary:</strong> {job.salary_from} - {job.salary_to}</p>
                 <p><strong>Type:</strong> {job.employment_type}</p>
                 <p><strong>Deadline:</strong> {job.application_deadline}</p>
-                <p><strong>Qualifications:</strong> {job.qualifications.join(", ")}</p>
+                <p><strong>Qualifications:</strong>{" "}{Array.isArray(job.qualifications) ? job.qualifications.join(", ") : job.qualifications || "N/A"}</p>
                 <p><strong>Description:</strong> {job.description}</p>
             </Modal.Body>
             <Modal.Footer>

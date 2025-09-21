@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import JobCard from "./JobCard";
+import { uploadJobs } from "../uploadJobs";
 import JobDetailModal from "./JobDetailModal";
 import { Form } from "react-bootstrap";
 
-export default function JobSeekerDashboard({ user }) {
+export default function JobSeekerDashboard({ users }) {
     const [jobs, setJobs] = useState([]);
+
     const [search, setSearch] = useState("");
     const [sortBy, setSortBy] = useState("");
     const [selectedJob, setSelectedJob] = useState(null);
@@ -23,7 +25,7 @@ export default function JobSeekerDashboard({ user }) {
     useEffect(() => { fetchJobs(); }, []);
 
     const applyJob = async (jobId) => {
-        await addDoc(appsCollection, { jobId, userId: user.uid, appliedAt: new Date().toISOString() });
+        await addDoc(appsCollection, { jobId, userId: users.uid, appliedAt: new Date().toISOString() });
         alert("Applied successfully!");
     };
 
