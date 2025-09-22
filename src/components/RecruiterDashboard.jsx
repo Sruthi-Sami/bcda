@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import JobCard from "./JobCard";
-import JobDetailModal from "./JobDetailModal";
-import { Form, Row, Col, Button, InputGroup } from "react-bootstrap";
+import JobForm from "./JobForm";
+import "./dash.css";
+import { Form, Button } from "react-bootstrap";
 
-export default function JobSeekerDashboard({ users }) {
+export default function RecruiterDashboard({ users }) {
+    if (!users) {
+        return <div className="text-center mt-5">Please log in as a recruiter to view this page.</div>;
+    }
+
     const [jobs, setJobs] = useState([]);
+    const [showJobs, setShowJobs] = useState(false);
     const [search, setSearch] = useState("");
     const [sortBy, setSortBy] = useState("");
-    const [selectedJob, setSelectedJob] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [jumpPage, setJumpPage] = useState("");
+    const [editForm, setEditForm] = useState(null);
 
     const jobsCollection = collection(db, "jobs");
-    const appsCollection = collection(db, "applications");
-
-    const jobsPerPage = 30;
 
     const fetchJobs = async () => {
         const data = await getDocs(jobsCollection);
@@ -26,14 +26,33 @@ export default function JobSeekerDashboard({ users }) {
 
     useEffect(() => { fetchJobs(); }, []);
 
-    const applyJob = async (jobId) => {
-        await addDoc(appsCollection, { jobId, userId: users.uid, appliedAt: new Date().toISOString() });
-        alert("Applied successfully!");
+    // Add Job
+    const addJob = async (job) => {
+        await addDoc(jobsCollection, { ...job, recruiterId: users.uid });
+        fetchJobs();
     };
 
-    const viewDetails = (job) => {
-        setSelectedJob(job);
-        setShowModal(true);
+    // Delete Job
+    const deleteJobById = async (id) => {
+        await deleteDoc(doc(db, "jobs", id));
+        fetchJobs();
+    };
+
+    // Save edited job
+    const saveEditJob = async (job) => {
+        if (!job?.id) return;
+        const updatedJob = {
+            ...job,
+            salary_from: Number(job.salary_from),
+            salary_to: Number(job.salary_to),
+            number_of_opening: Number(job.number_of_opening),
+            is_remote_work: Boolean(job.is_remote_work),
+            qualifications: job.qualifications.split(",").map(q => q.trim()),
+            updated_at: new Date().toISOString(),
+        };
+        await updateDoc(doc(db, "jobs", job.id), updatedJob);
+        setEditForm(null);
+        fetchJobs();
     };
 
     const filteredJobs = jobs
@@ -44,78 +63,57 @@ export default function JobSeekerDashboard({ users }) {
             return 0;
         });
 
-    const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
-    const startIndex = (currentPage - 1) * jobsPerPage;
-    const currentJobs = filteredJobs.slice(startIndex, startIndex + jobsPerPage);
-
-    const goFirst = () => setCurrentPage(1);
-    const goPrev = () => setCurrentPage(p => Math.max(p - 1, 1));
-    const goNext = () => setCurrentPage(p => Math.min(p + 1, totalPages));
-    const goLast = () => setCurrentPage(totalPages);
-
-    const handleJumpPage = () => {
-        const pageNum = Number(jumpPage);
-        if (pageNum >= 1 && pageNum <= totalPages) {
-            setCurrentPage(pageNum);
-        }
-        setJumpPage("");
-    };
-
     return (
-        <div>
-            <Form className="mb-3 d-flex">
+        <div className="recruiter-dashboard">
+            {/* Search & Sort */}
+            <Form className="mb-3 d-flex search-form">
                 <Form.Control
+                    className="search-input"
                     placeholder="Search by title"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <Form.Select className="ms-2" onChange={(e) => setSortBy(e.target.value)}>
+                <Form.Select className="ms-2 sort-select" onChange={(e) => setSortBy(e.target.value)}>
                     <option value="">Sort By</option>
                     <option value="salary">Salary</option>
                     <option value="deadline">Deadline</option>
                 </Form.Select>
             </Form>
 
-            <Row className="mb-3">
-                {currentJobs.map((job) => (
-                    <Col md={6} key={job.id} className="mb-3">
-                        <JobCard job={job} applyJob={applyJob} viewDetails={viewDetails} />
-                    </Col>
-                ))}
-            </Row>
-
-            {/* Pagination */}
-            <div className="d-flex justify-content-center align-items-center mb-4 flex-wrap">
-                <Button variant="secondary" className="me-2 mb-2" onClick={goFirst} disabled={currentPage === 1}>
-                    &larr; First
-                </Button>
-                <Button variant="secondary" className="me-2 mb-2" onClick={goPrev} disabled={currentPage === 1}>
-                    &larr; Prev
-                </Button>
-                <span className="mx-2 mb-2">Page {currentPage} of {totalPages}</span>
-                <Button variant="secondary" className="ms-2 mb-2" onClick={goNext} disabled={currentPage === totalPages}>
-                    Next &rarr;
-                </Button>
-                <Button variant="secondary" className="ms-2 mb-2" onClick={goLast} disabled={currentPage === totalPages}>
-                    Last &rarr;
-                </Button>
-
-
-                {/* Jump to page input */}
-                <InputGroup className="ms-2 mb-2" style={{ width: "120px" }}>
-                    <Form.Control
-                        placeholder="Go to page"
-                        value={jumpPage}
-                        onChange={(e) => setJumpPage(e.target.value)}
-                        type="number"
-                        min="1"
-                        max={totalPages}
-                    />
-                    <Button variant="primary" onClick={handleJumpPage}>Go</Button>
-                </InputGroup>
+            {/* Job Form for Add / Edit */}
+            <div className="job-form mb-4">
+                <JobForm
+                    onSubmit={editForm ? saveEditJob : addJob}
+                    initialData={editForm}
+                    onCancel={() => setEditForm(null)}
+                />
             </div>
 
-            <JobDetailModal show={showModal} handleClose={() => setShowModal(false)} job={selectedJob} />
+            {/* Toggle Job List */}
+            <Button
+                className="view-jobs-btn mb-4"
+                onClick={() => setShowJobs(prev => !prev)}
+            >
+                {showJobs ? "Hide All Jobs" : "View All Jobs"}
+            </Button>
+
+            {/* Job Cards */}
+            {showJobs && (
+                <div className="recruiter-job-list">
+                    {filteredJobs.map(job => (
+                        <JobCard
+                            key={job.id}
+                            job={job}
+                            deleteJob={job.recruiterId === users.uid ? deleteJobById : undefined}
+                            editJob={job.recruiterId === users.uid ? () => setEditForm(job) : undefined}
+                            isRecruiter={job.recruiterId === users.uid}
+                        />
+                    ))}
+
+                </div>
+            )}
+
+
         </div>
     );
 }

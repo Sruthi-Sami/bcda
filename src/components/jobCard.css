@@ -1,0 +1,86 @@
+/* jobCard.css */
+
+/* Card container */
+.card {
+    border-radius: 12px;
+    border: 2px solid #30c0a9;
+    /* teal border */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #e0e0e0;
+    /* light grey background */
+    color: #8d8b8b;
+    /* dark grey text */
+}
+
+/* Hover effect */
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Card body */
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Card title */
+.card-title {
+    font-weight: bold;
+    font-size: 2rem;
+    /* increased font size */
+    color: #131414;
+    /* teal */
+    text-align: center;
+    /* center aligned */
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+    /* subtle border */
+    padding-bottom: 0.5rem;
+}
+
+/* Card text */
+.card-text {
+    font-size: 1.6rem;
+    /* increased font size */
+    color: #555;
+    /* medium grey */
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+/* Label in strong tag */
+.card-text strong {
+    color: #374a47;
+    /* teal for labels */
+    font-weight: 600;
+}
+
+/* Buttons inside the card */
+.card .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+    /* slightly bigger */
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    background-color: #30c0a9;
+    /* teal */
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    /* increased font */
+}
+
+/* Button hover effect */
+.card .btn:hover {
+    background-color: #28a793;
+    /* darker teal on hover */
+    transform: scale(1.05);
+}
+
+/* Small spacing between buttons */
+.card .btn+.btn {
+    margin-left: 0.5rem;
+    margin-top: 0.25rem;
+}

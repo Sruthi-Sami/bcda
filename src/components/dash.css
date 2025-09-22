@@ -1,0 +1,202 @@
+/* Dashboard container */
+.recruiter-dashboard {
+    padding: 2.5rem;
+    min-height: 100vh;
+    /* light grey background */
+    border-radius: 12px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    padding-bottom: 200px;
+}
+
+/* Search bar */
+.search-form {
+    /* light grey */
+    padding: 10px;
+    border-radius: 12px;
+    align-items: center;
+    margin: 50px 150px;
+}
+
+.search-input {
+    background-color: #e0e0e0;
+    /* slightly darker grey */
+    border: 2px solid #309689;
+    /* teal border */
+    color: #333;
+    /* dark grey text */
+    border-radius: 8px;
+    padding: 1.0rem 1rem;
+    font-size: 1.1rem;
+}
+
+.search-input::placeholder {
+    color: #666;
+    /* placeholder grey */
+}
+
+.sort-select {
+    background-color: #e0e0e0;
+    /* slightly darker grey */
+    border: 2px solid #309689;
+    /* teal border */
+    color: #333;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    padding: 1.0rem 1rem;
+}
+
+.sort-select option {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+/* Job Form */
+.job-form {
+    margin: 40px 150px;
+    background-color: #ffffff;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.job-form:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.recruiter-job-list {
+    margin: 50px 150px;
+}
+
+.job-form .form-control,
+.job-form .form-check-input {
+    border-radius: 10px;
+    border: 2px solid #d1d1d1;
+    padding: 0.7rem 1rem;
+    font-size: 1.1rem;
+}
+
+.job-form .form-control:focus {
+    border-color: #309689;
+    box-shadow: none;
+}
+
+.job-form .form-check-label {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Toggle Job List Button */
+.view-jobs-btn {
+    margin-bottom: 1.5rem;
+    background-color: #309689;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.7rem 1.4rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-left: 150px;
+}
+
+.view-jobs-btn:hover {
+    background-color: #26786d;
+    transform: scale(1.03);
+}
+
+/* Job Cards Grid */
+.recruiter-job-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Individual Job Card */
+.card {
+    background-color: #e0e0e0;
+    /* light grey */
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Buttons inside cards */
+.card .btn {
+    background-color: #309689;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.card .btn:hover {
+    background-color: #26786d;
+    transform: scale(1.05);
+}
+
+/* Modals */
+.modal-content {
+    border-radius: 12px;
+    background-color: #f8f8f8;
+}
+
+.modal-header {
+    background-color: #309689;
+    color: #fff;
+    font-weight: bold;
+    border-bottom: none;
+}
+
+.modal-footer .btn-primary {
+    background-color: #309689;
+    border: none;
+    font-weight: 600;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #26786d;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #e0e0e0;
+    color: #333;
+    font-weight: 500;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #d1d1d1;
+}
+
+/* Pagination & spacing */
+.js-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 200px;
+    /* extra bottom spacing */
+}

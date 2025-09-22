@@ -95,7 +95,18 @@ export default function JobForm({ onSubmit }) {
             <Form.Group className="mt-2">
                 <Form.Control name="contact" placeholder="Contact" value={form.contact} onChange={handleChange} required />
             </Form.Group>
-            <Button type="submit" className="mt-3">Add Job</Button>
+            <Button
+                type="submit"
+                className="mt-3"
+                style={{
+                    backgroundColor: "#309689",   // teal
+                    borderColor: "#309689",
+                    color: "#fff",
+                    fontWeight: 600,
+                }}
+            >
+                Add Job
+            </Button>
         </Form>
     );
 }

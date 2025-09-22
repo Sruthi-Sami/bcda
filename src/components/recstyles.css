@@ -1,0 +1,127 @@
+.js-cont {
+    margin: 50px 150px;
+}
+
+/* Search Form */
+.search-form {
+    /* light grey */
+    padding: 10px;
+    border-radius: 12px;
+    align-items: center;
+    margin: 50px 150px;
+}
+
+.search-input {
+    background-color: #e0e0e0;
+    /* slightly darker grey */
+    border: 2px solid #309689;
+    /* teal border */
+    color: #333;
+    /* dark grey text */
+    border-radius: 8px;
+    padding: 1.0rem 1rem;
+    font-size: 1.1rem;
+}
+
+.search-input::placeholder {
+    color: #666;
+    /* placeholder grey */
+}
+
+.sort-select {
+    background-color: #e0e0e0;
+    /* slightly darker grey */
+    border: 2px solid #309689;
+    /* teal border */
+    color: #333;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    padding: 1.0rem 1rem;
+}
+
+.sort-select option {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.jobseeker-dashboard {
+    /* white background */
+    min-height: 100vh;
+    /* full height */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding-bottom: 200px;
+}
+
+
+
+.js-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Pagination buttons - light theme */
+.js-pagination .btn-secondary {
+    background-color: #f2f2f2;
+    /* light grey */
+    color: #309689;
+    /* teal text */
+    border: 2px solid #d1d1d1;
+    /* light grey border */
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.js-pagination .btn-secondary:hover {
+    background-color: #e0e0e0;
+    /* slightly darker grey */
+    color: #26786d;
+    /* darker teal */
+}
+
+/* Disabled button */
+.js-pagination .btn-secondary:disabled {
+    background-color: #f9f9f9;
+    /* very light grey */
+    color: #a0a0a0;
+    /* grey text */
+    border-color: #d1d1d1;
+}
+
+/* Input group for jump page */
+.js-pagination .input-group {
+    width: 140px;
+}
+
+.js-pagination .form-control {
+    border-radius: 8px 0 0 8px;
+    border: 2px solid #d1d1d1;
+    font-weight: 500;
+    padding: 0.4rem 0.5rem;
+    background-color: #f2f2f2;
+    /* light grey input */
+    color: #333;
+}
+
+.js-pagination .input-group .btn-primary {
+    border-radius: 0 8px 8px 0;
+    padding: 0.4rem 0.6rem;
+    background-color: #309689;
+    /* teal button */
+    color: #fff;
+    border: 2px solid #309689;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.js-pagination .input-group .btn-primary:hover {
+    background-color: #26786d;
+    /* darker teal */
+    border-color: #26786d;
+}

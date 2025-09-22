@@ -14,11 +14,39 @@ export default function RoleSelection({ users, setRole, setIsNewUser }) {
     };
 
     return (
-        <Container className="text-center mt-5">
-            <h3>Choose your role</h3>
-            <p>This will determine your dashboard view and access rights.</p>
-            <Button className="m-2" onClick={() => chooseRole("recruiter")}>Recruiter</Button>
-            <Button className="m-2" onClick={() => chooseRole("jobseeker")}>Job Seeker</Button>
+        <Container style={{ textAlign: "center", marginTop: "3rem", fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif" }}>
+            <h3 style={{ marginBottom: "0.5rem", color: "#fff" }}>Choose your role</h3>
+            <p style={{ marginBottom: "1.5rem", color: "#fff" }}>
+                This will determine your dashboard view and access rights.
+            </p>
+            <Button
+                style={{
+                    backgroundColor: "#309689",
+                    borderColor: "#309689",
+                    color: "#fff",
+                    fontWeight: 600,
+                    padding: "0.6rem 1.2rem",
+                    borderRadius: "8px",
+                    margin: "0.5rem",
+                }}
+                onClick={() => chooseRole("recruiter")}
+            >
+                Recruiter
+            </Button>
+            <Button
+                style={{
+                    backgroundColor: "#e0e0e0",
+                    borderColor: "#ccc",
+                    color: "#333",
+                    fontWeight: 600,
+                    padding: "0.6rem 1.2rem",
+                    borderRadius: "8px",
+                    margin: "0.5rem",
+                }}
+                onClick={() => chooseRole("jobseeker")}
+            >
+                Job Seeker
+            </Button>
         </Container>
     );
 }

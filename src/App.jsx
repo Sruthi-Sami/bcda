@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { auth, provider, db } from "./firebase";
-import { signInWithPopup, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import RecruiterDashboard from "./components/RecruiterDashboard";
 import JobSeekerDashboard from "./components/JobSeekerDashboard";
 import RoleSelection from "./components/RoleSelection";
 import { Container, Button } from "react-bootstrap";
+import "./App.css"; // ✅ import CSS
 
 export default function App() {
   const [users, setUser] = useState(null);
   const [role, setRole] = useState(null);
   const [isNewUser, setIsNewUser] = useState(false);
 
-  // Auto logout on browser/tab close (optional, extra safety)
+  // Auto logout on browser/tab close
   useEffect(() => {
     const handleUnload = () => auth.signOut();
     window.addEventListener("beforeunload", handleUnload);
@@ -30,7 +37,7 @@ export default function App() {
           setRole(userSnap.data().role);
           setIsNewUser(false);
         } else {
-          setIsNewUser(true); // New user must select role
+          setIsNewUser(true);
         }
         setUser(currentUser);
       } else {
@@ -44,7 +51,6 @@ export default function App() {
 
   // Login / Sign up
   const handleGoogleLogin = async () => {
-    // Session-only persistence
     await setPersistence(auth, browserSessionPersistence);
 
     const result = await signInWithPopup(auth, provider);
@@ -55,23 +61,48 @@ export default function App() {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-      setIsNewUser(true); // Show role selection for new user
+      setIsNewUser(true);
     } else {
-      setRole(userSnap.data().role); // Existing user → dashboard
+      setRole(userSnap.data().role);
     }
   };
 
   const handleLogout = () => signOut(auth);
 
   return (
-    <Container>
+    <>
+      {/* ✅ Navbar */}
+      <nav className="navbar navbar-custom d-flex justify-content-between align-items-center">
+        <span className="navbar-brand">Job Portal</span>
+
+        <div className="d-flex align-items-center">
+          {users && (
+            <Button className="btn-logout me-3 colbtn" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
+          {/* ✅ Logo on top-right */}
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/10312/10312763.png"
+            alt="Portal Logo"
+            className="nav-logo"
+          />
+        </div>
+      </nav>
+
+      {/* ✅ Tagline */}
+      <div className="tagline text-center mt-4">
+        <h2>Find Your Dream Job Today!</h2>
+      </div>
+
+
       {!users ? (
-        <div className="text-center mt-5">
-          <h2>Login with Google</h2>
-          <Button className="m-2" onClick={handleGoogleLogin}>
+        <div className="text-center my-3">
+          <Button className="login-btn" onClick={handleGoogleLogin}>
             Login / Sign Up
           </Button>
         </div>
+
       ) : isNewUser ? (
         <RoleSelection
           users={users}
@@ -80,10 +111,7 @@ export default function App() {
         />
       ) : (
         <>
-          <div className="d-flex justify-content-end mt-3">
-            <Button variant="danger" onClick={handleLogout}>Logout</Button>
-          </div>
-          <h1 className="text-center my-4">Job Portal</h1>
+          <h1 className="text-center my-4">Welcome to Job Portal</h1>
           {role === "recruiter" ? (
             <RecruiterDashboard users={users} />
           ) : (
@@ -91,6 +119,29 @@ export default function App() {
           )}
         </>
       )}
-    </Container>
+
+
+      {/* ✅ Footer */}
+      <footer className="footer">
+        <div className="company-logos">
+          <div className="company">
+            <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" alt="Google" />
+            <span>Google</span>
+          </div>
+          <div className="company">
+            <img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" alt="Microsoft" />
+            <span>Microsoft</span>
+          </div>
+          <div className="company">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174872.png" alt="Spotify" />
+            <span>Spotify</span>
+          </div>
+          <div className="company">
+            <img src="https://cdn-icons-png.flaticon.com/512/179/179309.png" alt="Apple" />
+            <span>Apple</span>
+          </div>
+        </div>
+      </footer>
+    </>
   );
 }
