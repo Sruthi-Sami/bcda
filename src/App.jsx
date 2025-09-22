@@ -111,7 +111,7 @@ export default function App() {
         />
       ) : (
         <>
-          <h1 className="text-center my-4">Welcome to Job Portal</h1>
+          <h1 className="text-center my-4">Welcome ...</h1>
           {role === "recruiter" ? (
             <RecruiterDashboard users={users} />
           ) : (
